@@ -7,7 +7,8 @@ import { MenuOutlined } from '@ant-design/icons'
 // import { UNSELECT_LABLE, } from '@store/actions/lable'
 // import { getArticles,CLEAN_ARTICLES,FIRST_ARTILES_LIST_PAGE } from '@store/actions/articles'
 
-import './style.less'
+import c from 'classnames'
+import s from './style.module.less'
 
 const handleClick = (props,e)=>{
     props.history.push(e.key)
@@ -55,14 +56,14 @@ function HeaderMenu(selectNav,props){
 function Header(props){
     const { selectlable } = props;
     const [ visibleMenu,setVisibleMenu ] = useState(false)
-    const [ selectNav,setSelectNav ] = useState(getActiveSelect(location.pathname))
+    const [ selectNav,setSelectNav ] = useState(process.browser ? getActiveSelect(location.pathname) : '')
 
     // props.history.listen(()=>{
     //     setSelectNav( getActiveSelect(location.pathname) );
     // })
 
-    return <header className="header" >
-                <div className="blog-name" >
+    return <header className={s.header} >
+                <div className={s["blog-name"]} >
                     <a href="/" target="_self">WU-ZEFENG BLOG</a>
                     { false && <Tag
                          closable
@@ -73,14 +74,14 @@ function Header(props){
                         {selectlable}
                       </Tag> }
                 </div>
-                <nav className="blog-menu" >
-                    {HeaderMenu(selectNav,props)}
+                <nav className={s["blog-menu"]} >
+                    {/* {HeaderMenu(selectNav,props)} */}
                 </nav>
-                <nav className="blog-menu-dropdown" >
+                <nav className={s["blog-menu-dropdown"]} >
                     <Dropdown  onVisibleChange={(visible)=>{ setVisibleMenu(visible) }}
                                overlay={HeaderMenu(selectNav,props)}
                                trigger={['click','hover']}>
-                        <a className={ ["ant-dropdown-link" ,visibleMenu ? 'active' : ''] } href="#">
+                        <a className={ c([s["ant-dropdown-link"] ,visibleMenu ? s["active"] : ""]) } href="#">
                             {/* <Icon type="menu" /> */}
                             <MenuOutlined />
                         </a>

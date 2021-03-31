@@ -1,6 +1,7 @@
 import React,{ useEffect,useState } from 'react'
 import { Tag,Menu,Dropdown  } from 'antd';
 import { MenuOutlined } from '@ant-design/icons'
+// import { useHistory } from 'react-route'
 
 // import { withRouter } from 'react-router'
 // import { connect } from 'react-redux';
@@ -9,10 +10,6 @@ import { MenuOutlined } from '@ant-design/icons'
 
 import c from 'classnames'
 import s from './style.module.less'
-
-const handleClick = (props,e)=>{
-    props.history.push(e.key)
-}
 
 const getActiveSelect = (route) => {
     route = route ? route : window.location.href
@@ -36,18 +33,20 @@ const getActiveSelect = (route) => {
 //     dispatch( getArticles({},1,10,true) );
 // }
 
-function HeaderMenu(selectNav,props){
+function HeaderMenu(props){
+
+    const { selectNav } = props
+
     return <Menu mode="horizontal"
             selectedKeys={ selectNav }
-            onClick={handleClick.bind(null,props)}
             style={{ lineHeight: '64px' }} >
-            <Menu.Item key="/article">
+            <Menu.Item href="/article" key="/article">
                 文章
             </Menu.Item>
-            <Menu.Item key="/labels">
+            <Menu.Item href="/labels" key="/labels">
                 标签
             </Menu.Item>
-            <Menu.Item key="/about">
+            <Menu.Item href="/about" key="/about">
                 关于
             </Menu.Item>
         </Menu>
@@ -57,10 +56,6 @@ function Header(props){
     const { selectlable } = props;
     const [ visibleMenu,setVisibleMenu ] = useState(false)
     const [ selectNav,setSelectNav ] = useState(process.browser ? getActiveSelect(location.pathname) : '')
-
-    // props.history.listen(()=>{
-    //     setSelectNav( getActiveSelect(location.pathname) );
-    // })
 
     return <header className={s.header} >
                 <div className={s["blog-name"]} >
@@ -75,14 +70,13 @@ function Header(props){
                       </Tag> }
                 </div>
                 <nav className={s["blog-menu"]} >
-                    {/* {HeaderMenu(selectNav,props)} */}
+                    <HeaderMenu selectNav={selectNav} />
                 </nav>
                 <nav className={s["blog-menu-dropdown"]} >
                     <Dropdown  onVisibleChange={(visible)=>{ setVisibleMenu(visible) }}
-                               overlay={HeaderMenu(selectNav,props)}
+                               overlay={<HeaderMenu selectNav={selectNav} />}
                                trigger={['click','hover']}>
                         <a className={ c([s["ant-dropdown-link"] ,visibleMenu ? s["active"] : ""]) } href="#">
-                            {/* <Icon type="menu" /> */}
                             <MenuOutlined />
                         </a>
                     </Dropdown>

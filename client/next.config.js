@@ -11,6 +11,7 @@ const lessOption = {
   paths:[
     path.join(__dirname,'/src')
   ],
+  javascriptEnabled: true,
   // modifyVars:modifyVars,
 }
 
@@ -19,7 +20,10 @@ module.exports = withPlugins([
     // 解析css
     withCss,
     // 解析less
-    [withLess,{ cssModules: true, lessLoaderOptions:lessOption }],
+    [withLess,{
+      cssModules: true,
+      lessLoaderOptions:lessOption
+    }],
     // 支持svg
     withSvgr,
 ],{

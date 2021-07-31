@@ -1,8 +1,7 @@
 
 
 const path = require('path')
-const withLess = require('@zeit/next-less')
-const withCss = require('@zeit/next-css')
+const withAntdLess = require('next-plugin-antd-less');
 const withSvgr = require("next-svgr");
 const withPlugins = require("next-compose-plugins");
 
@@ -17,10 +16,8 @@ const lessOption = {
 
 // 合并插件配置
 module.exports = withPlugins([
-    // 解析css
-    withCss,
     // 解析less
-    [withLess,{
+    [withAntdLess,{
       cssModules: true,
       lessLoaderOptions:lessOption
     }],

@@ -1,0 +1,69 @@
+.article-list{
+  background:#fff;
+}
+
+.article-title{
+  position: relative;
+  color: #333;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 20px;
+  &:active,&:hover{
+      color: red;
+  }
+}
+
+.article-content{
+  position: relative;
+  color: #333;
+  font-size:14px;
+  font-weight:200 !important;
+
+  margin:10px;
+  overflow: hidden;
+  line-height: 20px;
+  max-height: 40px;
+}
+
+.ellipsis::after{
+  content: "...";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding-left: 40px;
+  background: linear-gradient(to right, transparent, #fff 55%);
+}
+
+.artice-info{
+    margin-bottom: 20px;
+    font-size: 12px;
+    border-bottom:1px solid #ddd;
+    color: #333;
+    padding-bottom:15px;
+    overflow: hidden;
+    &>span{
+        display: inline-block;
+        height: 22px;
+        line-height: 22px;
+    }
+    .artice-lables{
+        margin-left:15px;
+        &>div{
+          display: inline-block;
+        }
+    }
+}
+
+.artice-createtime{
+  min-width: 220px;
+}
+
+
+@media screen and (max-width:700px) {
+  .artice-createtime{
+      display: none;
+  }
+  .artice-read.l{
+      float: right;
+  }
+}

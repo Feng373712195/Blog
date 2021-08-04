@@ -1,9 +1,9 @@
 import React from 'react'
-import Header from '@/components/Header'
+import Layout from '@/components/Layout'
+import '@/styles/rest.less'
 
-export default function Articles(){
-  return <div>
-    <Header />
+export default function Articles () {
+  return <Layout>
     <div>Articles</div>
-  </div>
+  </Layout>
 }

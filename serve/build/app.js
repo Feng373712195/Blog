@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
-const router = require('./router');
+const router = require('./routers');
 require('./db');
 const app = new Koa();
 app.use(bodyParser());

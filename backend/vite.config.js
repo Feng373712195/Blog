@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite'
 const path = require('path')
 
+console.log('come back')
+
 export default defineConfig({
   resolve: {
     alias: {

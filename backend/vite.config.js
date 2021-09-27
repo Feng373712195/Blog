@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
-const styleImport = require('vite-plugin-style-import').default
-const path = require('path')
+import styleImport from 'vite-plugin-style-import'
+import path from 'path'
 
 
 export default defineConfig({
@@ -21,12 +21,17 @@ export default defineConfig({
     host: true,
   },
   plugins: [
-    {
-      libraryName: 'antd',
-      esModule: true,
-      resolveStyle: (name) => {
-        return `antd/es/${name}/style/index`
-      },
-    }
+    styleImport({
+      libs: [
+        {
+          libraryName: 'antd',
+          esModule: true,
+          resolveStyle: (name) => {
+            console.log(name , 'name')
+            return `antd/es/${name}/style/index`
+          }
+        }
+      ]
+    })
   ]
 })

@@ -7,18 +7,17 @@ const { Header, Sider, Content } = Layout;
 export default function AppLayout(){
   return <Layout style={{ height:'100vh' }} >
     <Sider>
-      <div className={s.logo} >WUZEFENG</div>
-      <Menu>
-        <Menu.Item>1</Menu.Item>
-        <Menu.Item>2</Menu.Item>
-        <Menu.Item>3</Menu.Item>
-        <Menu.Item>4</Menu.Item>
+      <div className={s.logo} >WUZEFENG博客管理后台</div>
+      <Menu theme="dark" >
+        <Menu.Item>发布文章</Menu.Item>
+        <Menu.Item>文章草稿</Menu.Item>
+        <Menu.Item>文章管理</Menu.Item>
+        <Menu.Item>标签管理</Menu.Item>
       </Menu>
     </Sider>
     <Layout>
-      <Header></Header>
       <Content>
-        Content11
+
       </Content>
     </Layout>
   </Layout>

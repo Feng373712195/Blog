@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import styleImport from 'vite-plugin-style-import'
 import path from 'path'
 
+console.log('====')
 
 export default defineConfig({
   css: {

@@ -2,8 +2,6 @@ import { defineConfig } from 'vite'
 import styleImport from 'vite-plugin-style-import'
 import path from 'path'
 
-console.log('123 --')
-
 export default defineConfig({
   css: {
     preprocessorOptions: {

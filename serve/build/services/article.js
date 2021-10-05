@@ -44,8 +44,9 @@ function remove(id) {
 exports.remove = remove;
 function find(page, size) {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log('find', page, size);
         const data = yield Article.find().skip((page - 1) * size)
-            .limit(size);
+            .limit(Number(size));
         if (data) {
             return data;
         }

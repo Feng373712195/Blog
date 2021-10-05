@@ -63,6 +63,13 @@
     estree-walker "^2.0.1"
     picomatch "^2.2.2"
 
+"@types/axios@^0.14.0":
+  version "0.14.0"
+  resolved "http://xin.gnlab.com:4873/@types%2faxios/-/axios-0.14.0.tgz#ec2300fbe7d7dddd7eb9d3abf87999964cafce46"
+  integrity sha1-7CMA++fX3d1+udOr+HmZlkyvzkY=
+  dependencies:
+    axios "*"
+
 "@types/history@*":
   version "4.7.9"
   resolved "http://xin.gnlab.com:4873/@types%2fhistory/-/history-4.7.9.tgz#1cfb6d60ef3822c589f18e70f8b12f9a28ce8724"
@@ -168,6 +175,13 @@ async-validator@^3.0.3:
   resolved "http://xin.gnlab.com:4873/async-validator/-/async-validator-3.5.2.tgz#68e866a96824e8b2694ff7a831c1a25c44d5e500"
   integrity sha1-aOhmqWgk6LJpT/eoMcGiXETV5QA=
 
+axios@*, axios@^0.22.0:
+  version "0.22.0"
+  resolved "http://xin.gnlab.com:4873/axios/-/axios-0.22.0.tgz#bf702c41fb50fbca4539589d839a077117b79b25"
+  integrity sha1-v3AsQftQ+8pFOVidg5oHcRe3myU=
+  dependencies:
+    follow-redirects "^1.14.4"
+
 camel-case@^4.1.2:
   version "4.1.2"
   resolved "http://xin.gnlab.com:4873/camel-case/-/camel-case-4.1.2.tgz#9728072a954f805228225a6deea6b38461e1bd5a"
@@ -249,6 +263,11 @@ dayjs@1.x:
   resolved "http://xin.gnlab.com:4873/dayjs/-/dayjs-1.10.6.tgz#288b2aa82f2d8418a6c9d4df5898c0737ad02a63"
   integrity sha1-KIsqqC8thBimydTfWJjAc3rQKmM=
 
+dayjs@^1.10.7:
+  version "1.10.7"
+  resolved "http://xin.gnlab.com:4873/dayjs/-/dayjs-1.10.7.tgz#2cf5f91add28116748440866a0a1d26f3a6ce468"
+  integrity sha1-LPX5Gt0oEWdIRAhmoKHSbzps5Gg=
+
 debug@^4.3.2:
   version "4.3.2"
   resolved "http://xin.gnlab.com:4873/debug/-/debug-4.3.2.tgz#f0a49c18ac8779e31d4a0c6029dfb76873c7428b"
@@ -283,6 +302,11 @@ estree-walker@^2.0.1:
   version "2.0.2"
   resolved "http://xin.gnlab.com:4873/estree-walker/-/estree-walker-2.0.2.tgz#52f010178c2a4c117a7757cfe942adb7d2da4cac"
   integrity sha1-UvAQF4wqTBF6d1fP6UKtt9LaTKw=
+
+follow-redirects@^1.14.4:
+  version "1.14.4"
+  resolved "http://xin.gnlab.com:4873/follow-redirects/-/follow-redirects-1.14.4.tgz#838fdf48a8bbdd79e52ee51fb1c94e3ed98b9379"
+  integrity sha1-g4/fSKi73XnlLuUfsclOPtmLk3k=
 
 fsevents@~2.3.2:
   version "2.3.2"

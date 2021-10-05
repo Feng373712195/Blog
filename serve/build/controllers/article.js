@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getArticles = exports.updateArticle = exports.deteleArticle = exports.saveArticle = void 0;
-const articleService = require('../models/article');
+const articleService = require('../services/article');
 function saveArticle(ctx) {
     return __awaiter(this, void 0, void 0, function* () {
         let { article } = ctx.request.body;
@@ -68,8 +68,7 @@ function updateArticle(ctx) {
 exports.updateArticle = updateArticle;
 function getArticles(ctx) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log(ctx.request.body, 'ctx.request.body');
-        let { page = 1, size = 10 } = ctx.request.body;
+        let { page = 1, size = 10 } = ctx.request.query;
         try {
             const res = yield articleService.find(page, size);
             ctx.body = { code: 0, data: { articles: res } };

@@ -28,8 +28,9 @@ export async function remove (id:string) {
 }
 
 export async function find (page:number, size:number) {
+  console.log('find', page, size);
   const data = await Article.find().skip((page - 1) * size)
-    .limit(size)
+    .limit(Number(size))
 
   if (data) {
     return data

@@ -1,5 +1,5 @@
 
-const articleService = require('../models/article')
+const articleService = require('../services/article')
 
 // 创建文章
 export async function saveArticle (ctx:any) {
@@ -65,8 +65,7 @@ export async function updateArticle (ctx:any) {
 
 export async function getArticles (ctx:any) {
 
-  console.log(ctx.request.body, 'ctx.request.body')
-  let { page = 1, size = 10 } = ctx.request.body;
+  let { page = 1, size = 10 } = ctx.request.query;
 
   try {
     const res = await articleService.find(page, size)

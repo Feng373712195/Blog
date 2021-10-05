@@ -18,6 +18,13 @@ export default defineConfig({
   server: {
     port: 8080,
     host: true,
+    proxy:{
+      '/api': {
+        target: 'http://localhost:8081',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, '')
+      }
+    }
   },
   plugins: [
     styleImport({
@@ -26,7 +33,6 @@ export default defineConfig({
           libraryName: 'antd',
           esModule: true,
           resolveStyle: (name) => {
-            console.log(name , 'name')
             return `antd/es/${name}/style/index`
           }
         }

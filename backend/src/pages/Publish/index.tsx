@@ -1,69 +1,49 @@
-import React, { useEffect, useState } from 'react'
-import { Table,Button,Popover } from 'antd'
-import dayjs from 'dayjs'
+import React,{ useState, useContext , useEffect } from 'react'
+import { Button,Input } from 'antd'
+import { LayoutContext } from '@/components/Layout'
 
-import CommonPopover from '@/components/CommonPopover'
-import { fetchArticles } from './api'
+// import SimpleMDE from "react-simplemde-editor";
+// import "easymde/dist/easymde.min.css";
 
-const columns = [
-  {
-    title:'标题',
-    dataIndex: 'title',
-    key: 'title',
-  },
-  {
-    title: '阅读数',
-    dataIndex: 'clicks',
-    key: 'clicks',
-  },
-  {
-    title:'创建时间',
-    dataIndex: 'createtime',
-    key: 'createtime',
-    render(createtime){
-      return dayjs(createtime).format('YYYY-MM-DD hh:mm:ss')
-    }
-  },
-  {
-    title: '更新时间',
-    dataIndex: 'lasttime',
-    key: 'lasttime',
-    render(lasttime){
-      return dayjs(lasttime).format('YYYY-MM-DD hh:mm:ss')
-    }
-  },
-  {
-    title: '标签',
-    dataIndex: 'lables',
-    key: 'lables',
-  },
-  {
-    title: '操作',
-    dataIndex: 'ctr',
-    render(){
-      return <>
-        <Button style={{ padding:0 }} type="link" >编辑</Button>
-        <CommonPopover onSure={()=>{}} title="确定删除这篇文章吗？">
-          <Button danger type="text" >删除</Button>
-        </CommonPopover>
-      </>
-    }
-  }
-];
-
+import Editor from './Editor'
+import s from './index.module.less'
 
 export default function Publish() {
 
-  const [data,setData] = useState([])
-  const [page,setPage] = useState(1)
+  const [preview,showPreview] = useState(false)
+
+
+  const [article,setArticle] = useState({
+    title:'',
+    content:'',
+  })
+
+  const { setHeaderExtend } = useContext(LayoutContext)
 
   useEffect(()=>{
-    fetchArticles().then(res=>{
-      setData(res.data.data.articles)
+    setHeaderExtend({
+      render:()=><div className={s.ctr} >
+        <Button type="primary" ghost >保存草稿</Button>
+        <Button type="primary" >发布</Button>
+        <Button type="text" style={{ marginLeft:'12px' }} >返回</Button>
+      </div>
     })
   },[])
 
-  return <Table rowKey={row=>row._id} bordered dataSource={data} columns={columns} >
-    Publish
-  </Table>
+  const onChangeTitle = (e)=>{
+    setArticle(Object.assign(article,{  titile:e.target.value }))
+  }
+
+  return <div className={s.form} >
+
+    <div className={s['form-item']} >
+      <h3>文章标题</h3>
+      <Input placeholder="文章标题..." value={article.title} onInput={onChangeTitle}  />
+    </div>
+    <div className={s['form-item']} >
+      <h3>文章标题</h3>
+      <Editor />
+    </div>
+
+  </div>
 }

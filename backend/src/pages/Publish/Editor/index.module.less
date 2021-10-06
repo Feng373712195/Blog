@@ -1,0 +1,37 @@
+@import url("https://at.alicdn.com/t/font_501619_sqvid7g66bl.css");
+
+.editor-tools{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  margin-bottom: 10px;
+  li{
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+    & .iconfont{
+        &:hover{
+            opacity:.8;
+        }
+        &.active{
+            color:#0E6EB8;
+        }
+        display: inline-block !important;
+        vertical-align: middle !important;
+    }
+
+    &.cut{
+        width: 1px;
+        height: 20px;
+        border-right:1px solid #ddd;
+        &:first-child{
+            border: none;
+            margin: 0;
+        }
+    }
+  }
+}
+
+.editor-textarea{
+  min-height: 200px !important;
+}

@@ -8,8 +8,15 @@ type ToolType = { icon:string,tooltip:string,type:string }
 
 function EditorTools(props:{
   el:HTMLTextAreaElement ,
-  onUpdate:(text:string) => void
+  onUpdate:(text:string) => void,
+  onPrevire:(preview:boolean)=>void,
 }) {
+
+  const [preview,setPreview] = useState(false)
+
+  useEffect(()=>{
+    props.onPrevire(preview)
+  },[preview])
 
   const tools = useMemo(()=>({
     font:{
@@ -86,54 +93,46 @@ function EditorTools(props:{
 
   const toolHandle = (el,type) => {
 
-		let articlesbox = el
-		let textSelection = getRange(el)
+		let selection = getRange(el)
 
 		switch(type){
 			case 'bold' :
-				setRange(articlesbox,`**${textSelection}**`)
+				setRange(el,`**${selection}**`)
         break;
 			case 'Italics' :
-				setRange(articlesbox,`*${textSelection}*`)
+				setRange(el,`*${selection}*`)
         break;
 			case 'title' :
-				setRange(articlesbox,`###${textSelection}`)
+				setRange(el,`###${selection}`)
         break;
 			case 'quote' :
-				setRange(articlesbox,`>${textSelection}`)
+				setRange(el,`>${selection}`)
         break;
 			case 'code' :
-				setRange(articlesbox,` \`\`\`javascript \n ${textSelection} \n \`\`\` `)
+				setRange(el,` \`\`\`javascript \n ${selection} \n \`\`\` `)
         break;
 			case 'commonlist' :
-				setRange(articlesbox,`-${textSelection}`)
+				setRange(el,`-${selection}`)
         break;
 			case 'numberlist' :
-				setRange(articlesbox,`1.${textSelection}`)
+				setRange(el,`1.${selection}`)
         break;
 			case 'hyperlink':
-				articlesbox.value += `[](http://)`
+				el.value += `[](http://)`
         break;
 			case 'picture':
 				this.setState({ showUploadImgModal:true })
 				break;
 			case 'video':
-				articlesbox.value += `!![](http://)`
+				el.value += `!![](http://)`
 			case 'clean':
-				this.setState({
-					articleContent:''
-				},()=>{
-					articlesbox.value = ''
-				})
+        el.value = ''
 				break;
 			case 'preview':
-				this.setState({
-					showPreview:!this.state.showPreview
-				},function(){
-					// this.state.showPreview ? icon.addClass('active') : icon.removeClass('active')
-				})
+        setPreview(!preview)
 				break;
 			default:
+        break;
 		}
 
     props.onUpdate(props.el.value)
@@ -164,21 +163,28 @@ function EditorTools(props:{
   </ul>
 }
 
-export default function Editor() {
+export default function Editor(props:{
+  onChange:(value:string)=>void
+}) {
 
   const ref = useRef<HTMLTextAreaElement>()
   const [text,setText] = useState('')
 
-  const onChange = (e)=>{
-    setText(e.target.value)
+  useEffect(()=>{
+    props.onChange(text)
+  },[text])
+
+  const _onChange = (e)=>{
+    const text = e.target.value
+    setText(text)
   }
 
   return <div className={s.editor} >
-    <EditorTools onUpdate={setText} el={ref.current} />
+    <EditorTools onPrevire={()=>{}} onUpdate={setText} el={ref.current} />
     <Input.TextArea ref={(_ref) =>ref.current = _ref?.resizableTextArea.textArea}
       id="editor-textarea"
       className={s['editor-textarea']}
-      onChange={onChange}
+      onChange={_onChange}
       value={text} >
     </Input.TextArea>
   </div>

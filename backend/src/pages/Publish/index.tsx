@@ -1,6 +1,6 @@
 import React,{ useState, useContext , useEffect , useRef , useCallback } from 'react'
-import { InboxOutlined } from '@ant-design/icons'
-import { Select,Empty , Button,Input,Tag } from 'antd'
+import { InboxOutlined,PlusOutlined } from '@ant-design/icons'
+import { Select,Empty,Button,Input,Tag,Spin } from 'antd'
 import { LayoutContext } from '@/components/Layout'
 
 // import SimpleMDE from "react-simplemde-editor";
@@ -23,15 +23,39 @@ const getDefaultArticle:()=>Article = ()=>{
 function ChooseLable() {
 
   const [lables,setLables] = useState([])
+  const [loading,setLoading] = useState(false)
+  const [lableValue,setLableValue] = useState('')
 
-  return <Select style={{ width: 140, marginRight:'12px' }}
-  placeholder="请选择标签"
-  dropdownRender={menu => <div>
-    {lables.length === 0 ? <div className={s["lables-empty"]} >
-      <InboxOutlined />
-      <span>没有标签</span>
-    </div> : null}
-  </div>}>
+  const onChange = (e)=>{
+    setLableValue(e.target.value)
+  }
+
+  const addLable = ()=>{}
+
+  const onChangeLable = ()=>{}
+
+  return <Select
+    mode="multiple"
+    value={['111']}
+    loading={loading}
+    onChange={onChangeLable}
+    style={{ width: 240, marginRight:'12px' }}
+    placeholder="请选择标签"
+    dropdownRender={menu => <Spin spinning={loading} >
+    <div>
+      {lables.length === 0 ? <div className={s["lables-empty"]} >
+        <InboxOutlined />
+        <span>没有标签</span>
+      </div> : menu}
+      {/* 添加标签 */}
+      <div style={{ display: 'flex', flexWrap: 'nowrap', padding: 8 }}>
+        <Input placeholder="请输入标签..." size="small" style={{ flex: 'auto' }} value={lableValue} onChange={onChange} />
+        <a style={{ flex: 'none', padding: '8px', display: 'block', cursor: 'pointer' }} onClick={addLable} >
+          <PlusOutlined /> 添加标签
+        </a>
+      </div>
+    </div>
+  </Spin>}>
     {lables.map(option=><Select.Option value={option.name} key={option.name}>{option.name}</Select.Option> )}
   </Select>
 }
@@ -103,7 +127,7 @@ export default function Publish() {
     <div className={s['form-item']}>
       <h3>上传附件</h3>
       <Files />
-      <Button onClick={chooseFiles} >请选择要上传附件</Button>
+      <Button type="primary" onClick={chooseFiles} >请选择要上传附件</Button>
 			<input ref={uploadFileInputRef} className={s["uplpad-file"]} type='file' onChange={choosedFiles} multiple />
     </div>
 

@@ -1,6 +1,6 @@
 const Article = require('../models/article')
 
-import { ArticleInter } from '../models/index.d'
+import { ArticleInter } from './article.d'
 
 export async function save (article:ArticleInter) {
   const articleModel = new Article(article);
@@ -28,7 +28,7 @@ export async function remove (id:string) {
 }
 
 export async function find (page:number, size:number) {
-  console.log('find', page, size);
+
   const data = await Article.find().skip((page - 1) * size)
     .limit(Number(size))
 

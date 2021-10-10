@@ -9,12 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.find = exports.remove = exports.update = exports.save = void 0;
-const Article = require('../models/article');
-function save(article) {
+exports.remove = exports.save = void 0;
+const Lable = require('../models/lable');
+function save(label) {
     return __awaiter(this, void 0, void 0, function* () {
-        const articleModel = new Article(article);
-        const data = yield articleModel.save(article);
+        const LableModel = new Lable(label);
+        const data = yield LableModel.save(label);
         if (data) {
             return data;
         }
@@ -22,19 +22,9 @@ function save(article) {
     });
 }
 exports.save = save;
-function update(id, article) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const data = yield Article.update({ id }, article).exec();
-        if (data) {
-            return data;
-        }
-        return null;
-    });
-}
-exports.update = update;
 function remove(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const data = yield Article.remove({ _id: id }).exec();
+        const data = yield Lable.remove({ _id: id }).exec();
         if (data) {
             return data;
         }
@@ -42,15 +32,4 @@ function remove(id) {
     });
 }
 exports.remove = remove;
-function find(page, size) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const data = yield Article.find().skip((page - 1) * size)
-            .limit(Number(size));
-        if (data) {
-            return data;
-        }
-        return [];
-    });
-}
-exports.find = find;
-//# sourceMappingURL=article.js.map
+//# sourceMappingURL=lable.js.map

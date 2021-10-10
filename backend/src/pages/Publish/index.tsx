@@ -1,6 +1,6 @@
 import React,{ useState, useContext , useEffect , useRef , useCallback } from 'react'
 import { InboxOutlined,PlusOutlined } from '@ant-design/icons'
-import { Select,Empty,Button,Input,Tag,Spin } from 'antd'
+import { Select,Empty,Button,Input,Tag,Spin,message } from 'antd'
 import { LayoutContext } from '@/components/Layout'
 
 // import SimpleMDE from "react-simplemde-editor";
@@ -12,51 +12,67 @@ import s from './index.module.less'
 type Article = {
   title:string,
   content:string,
-  lables:[],
+  labels:string[],
   files:File[],
 }
 
 const getDefaultArticle:()=>Article = ()=>{
-  return { title:'', content:'', lables:[], files:[] }
+  return { title:'', content:'', labels:[], files:[] }
 }
 
-function ChooseLable() {
+function ChooseLabel(props:{
+  labels:Article['labels'],
+  onChange:(labels:Article['labels']) => void
+}) {
 
-  const [lables,setLables] = useState([])
+  const [labelText,setLabelText] = useState('')
   const [loading,setLoading] = useState(false)
-  const [lableValue,setLableValue] = useState('')
+  const [options,setOptions] = useState([]);
 
-  const onChange = (e)=>{
-    setLableValue(e.target.value)
+  const onChangeLabelText = (e)=>{
+    const text = e.target.value;
+    setLabelText(text)
   }
 
-  const addLable = ()=>{}
+  const addLabel = ()=>{
+    const has = [...options,...props.labels].find(i=>i === labelText)
+    if(has) {
+      message.info('不能添加重复的标签')
+      return
+    }
+    setLabelText('')
+    props.onChange([...props.labels,labelText])
+  }
 
-  const onChangeLable = ()=>{}
+  const onChangeLabel = (_labels)=>{
+    props.onChange(_labels)
+  }
 
   return <Select
+    className={s['labels-select']}
     mode="multiple"
-    value={['111']}
+    value={props.labels}
     loading={loading}
-    onChange={onChangeLable}
+    onChange={onChangeLabel}
     style={{ width: 240, marginRight:'12px' }}
     placeholder="请选择标签"
     dropdownRender={menu => <Spin spinning={loading} >
-    <div>
-      {lables.length === 0 ? <div className={s["lables-empty"]} >
+    <div className={s['labels-warp']} >
+      {options.length === 0 ? <div className={s["labels-empty"]} >
         <InboxOutlined />
         <span>没有标签</span>
-      </div> : menu}
+      </div> : <div className={s['labels']} >{menu}</div>
+      }
       {/* 添加标签 */}
       <div style={{ display: 'flex', flexWrap: 'nowrap', padding: 8 }}>
-        <Input placeholder="请输入标签..." size="small" style={{ flex: 'auto' }} value={lableValue} onChange={onChange} />
-        <a style={{ flex: 'none', padding: '8px', display: 'block', cursor: 'pointer' }} onClick={addLable} >
+        <Input placeholder="请输入标签..." size="small" style={{ flex: 'auto' }} value={labelText} onChange={onChangeLabelText} />
+        <a style={{ flex: 'none', padding: '8px', display: 'block', cursor: 'pointer' }} onClick={addLabel} >
           <PlusOutlined /> 添加标签
         </a>
       </div>
     </div>
   </Spin>}>
-    {lables.map(option=><Select.Option value={option.name} key={option.name}>{option.name}</Select.Option> )}
+    {options.map((option,index)=><Select.Option value={option} key={index}>{option}</Select.Option> )}
   </Select>
 }
 
@@ -68,19 +84,19 @@ export default function Publish() {
   const { setHeaderExtend } = useContext(LayoutContext)
 
   const onUpdateArticle = (key:string,value:any)=>{
-    setArticle(Object.assign({},article,{ [key]:value }))
+    setArticle(Object.assign({ ...article },{ [key]:value }))
   }
 
   useEffect(()=>{
     setHeaderExtend({
       render:()=><div className={s.ctr} >
-        <ChooseLable />
+        <ChooseLabel labels={article.labels} onChange={labels=>onUpdateArticle('labels',[...labels])} />
         <Button type="primary" ghost >保存草稿</Button>
         <Button type="primary" >发布</Button>
         <Button type="text" style={{ marginLeft:'12px' }} >返回</Button>
       </div>
     })
-  },[])
+  },[article.labels])
 
   const removeFile = (index)=>{
     article.files.splice(index,1);
@@ -88,7 +104,6 @@ export default function Publish() {
   }
 
   const Files = useCallback(()=>{
-    console.log(article.files , 'files')
     return <>
       {article.files.map((file,index)=>{
         return <Tag key={index} onClose={()=>removeFile(index)} closable className={s["file"]} >

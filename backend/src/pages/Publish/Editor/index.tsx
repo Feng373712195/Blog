@@ -1,5 +1,7 @@
 import React, { useState,useEffect,useMemo,useCallback,useRef } from 'react';
 import { Input,Tooltip } from 'antd'
+import UploadImage  from './UploadImage';
+
 import s from './index.module.less'
 
 import { getRange,setRange }  from './range'
@@ -13,6 +15,7 @@ function EditorTools(props:{
 }) {
 
   const [preview,setPreview] = useState(false)
+  const [uploadImage,showUploadImage] = useState(true)
 
   useEffect(()=>{
     props.onPrevire(preview)
@@ -156,11 +159,15 @@ function EditorTools(props:{
         )
       },[] as JSX.Element[])}
     </>
+
   },[props.el])
 
-  return <ul className={s['editor-tools']}>
-    <Tools />
-  </ul>
+  return <>
+    <ul className={s['editor-tools']}>
+      <Tools />
+    </ul>
+    <UploadImage visable={uploadImage} />
+  </>
 }
 
 export default function Editor(props:{

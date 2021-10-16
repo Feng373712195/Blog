@@ -12,13 +12,14 @@ export default function UploadImage(props:UploadImageProps){
 
   const onUpload = async ()=>{
     const files = uploadImageInputRef.current.files
-    const res = await upload('/upload',files)
+    const res = await upload(files);
+    console.log(res,'res')
   }
 
   return <Modal
     footer={null}
     title="选择上传图片" visible={props.visable}>
-    <input accept="image/*" ref={uploadImageInputRef} id="uploadImg" type="file"/>
+    <input accept="image/*" ref={uploadImageInputRef} id="uploadImg" type="file" multiple />
     <Button onClick={onUpload} className={s['upload-btn']} type="primary">上传图片</Button>
   </Modal>
 }

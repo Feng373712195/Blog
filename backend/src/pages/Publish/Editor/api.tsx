@@ -1,7 +1,7 @@
 import request from '@/utils/request';
 
-export const upload = (src,files)=>{
+export const upload = (files)=>{
   let formData = new FormData()
-  formData.append(`files`,files)
-  return request.post(src,formData)
+  Array.from(files).map((file,index) => formData.append(`file${index}`,file))
+  return request.put('/upload',formData)
 }

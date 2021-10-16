@@ -1,5 +1,11 @@
 import request from '@/utils/request';
 
+export function upload(files){
+  const data = new FormData()
+  files.map((file,index)=>data.append(`file${index}`,file))
+  return request.put('/upload',data)
+}
+
 export function  createArticle(params) {
   return request.post('/article')
 }

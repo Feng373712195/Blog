@@ -6,7 +6,7 @@ const articlesRouter = require('./articles')
 
 
 const router = new Router();
-router.use(uploadRouter.routes())
 router.use(articlesRouter.routes())
+router.use(uploadRouter.routes())
 
 module.exports = router

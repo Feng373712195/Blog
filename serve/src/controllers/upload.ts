@@ -7,7 +7,8 @@ const path = require('path')
 
 const Result = require('./Result')
 
-const UPLOAD_FILES_DIR = path.join(process.cwd(), '/static', '/uploadfiles')
+const UPLOAD_FILES_DIR = '/uploadfiles'
+const UPLOAD_FILES_DIR_PATH = path.join(process.cwd(), '/static', UPLOAD_FILES_DIR)
 
 // 创建文件夹
 function mkdir (dirPath:string) {
@@ -23,7 +24,7 @@ export async function upload (ctx:any) {
   const req = ctx.req
   // 时间戳用于命名上传文件夹名称
   const timeStamp = Number(new Date());
-  let uploadDirPath = path.join(UPLOAD_FILES_DIR, String(timeStamp))
+  let uploadDirPath = path.join(UPLOAD_FILES_DIR_PATH, String(timeStamp))
 
   if (!mkdir(uploadDirPath)) {return Promise.reject(false)}
 
@@ -40,7 +41,7 @@ export async function upload (ctx:any) {
       // 文件写入事件结束
       file.on('end', function () {
         --count;
-        if (count === 0) {return resolve(new Result(true, timeStamp))}
+        if (count === 0) {return resolve(new Result(true, `${UPLOAD_FILES_DIR}/${timeStamp}`))}
       })
     })
     // 解析错误事件

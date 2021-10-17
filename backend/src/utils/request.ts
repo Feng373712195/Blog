@@ -1,4 +1,6 @@
 import axios from 'axios'
+import request from '@/utils/request';
+import config from '@/config';
 
 
 
@@ -21,5 +23,9 @@ const instance = axios.create({
   baseURL: '/api',
   timeout: 5000,
 })
+
+instance.interceptors.response.use(function (response) {
+  return response.data;
+});
 
 export default instance

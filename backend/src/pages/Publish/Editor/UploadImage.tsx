@@ -1,10 +1,13 @@
 import React, { useRef } from 'react'
 import { Modal, Button, message } from 'antd';
 import { upload } from './api'
+import config from '@/config'
 import s from './index.module.less'
 
 interface UploadImageProps {
-  visable:boolean
+  visable:boolean,
+  onClose:()=>void,
+  onSuccess:(path:string,files:FileList)=>void
 }
 
 export default function UploadImage(props:UploadImageProps){
@@ -13,11 +16,12 @@ export default function UploadImage(props:UploadImageProps){
   const onUpload = async ()=>{
     const files = uploadImageInputRef.current.files
     let res = await upload(files);
-    console.log(res,'res')
     if(res.success === true){
-      console.log(res.data)
+      message.success(`图片上传成功`)
+      props.onClose();
+      props.onSuccess(`${config.baseApi}${res.data}`,files)
     }else{
-      message.error(`上传失败：${res.message}`)
+      message.error(`图片上传失败：${res.message}`)
     }
   }
 

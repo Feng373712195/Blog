@@ -5,6 +5,7 @@ import UploadImage  from './UploadImage';
 import s from './index.module.less'
 
 import { getRange,setRange }  from './range'
+import config from '@/config';
 
 type ToolType = { icon:string,tooltip:string,type:string }
 
@@ -15,7 +16,7 @@ function EditorTools(props:{
 }) {
 
   const [preview,setPreview] = useState(false)
-  const [uploadImage,showUploadImage] = useState(true)
+  const [uploadImage,showUploadImage] = useState(false)
 
   useEffect(()=>{
     props.onPrevire(preview)
@@ -96,6 +97,7 @@ function EditorTools(props:{
 
   const toolHandle = (el,type) => {
 
+    // 插入坐标优化
 		let selection = getRange(el)
 
 		switch(type){
@@ -124,7 +126,7 @@ function EditorTools(props:{
 				el.value += `[](http://)`
         break;
 			case 'picture':
-				this.setState({ showUploadImgModal:true })
+        showUploadImage(true)
 				break;
 			case 'video':
 				el.value += `!![](http://)`
@@ -140,6 +142,13 @@ function EditorTools(props:{
 
     props.onUpdate(props.el.value)
 	}
+
+  const onUploadImage = (path:string,files:FileList)=>{
+    const el = props.el
+    const text = [...files].map((file)=>`\n![](${config.baseApi}${path}${file.name})`)
+    el.value += text.join('')
+    props.onUpdate(el.value)
+  }
 
   const Tool = useCallback((_props:{ tool:ToolType })=>{
     const { tool } = _props
@@ -166,7 +175,9 @@ function EditorTools(props:{
     <ul className={s['editor-tools']}>
       <Tools />
     </ul>
-    <UploadImage visable={uploadImage} />
+    <UploadImage onSuccess={onUploadImage}
+      visable={uploadImage}
+      onClose={()=>showUploadImage(false)} />
   </>
 }
 

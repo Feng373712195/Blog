@@ -5,7 +5,8 @@ const Busboy = require('busboy');
 const fs = require('fs');
 const path = require('path');
 const Result = require('./Result');
-const UPLOAD_FILES_DIR = path.join(process.cwd(), '/static', '/uploadfiles');
+const UPLOAD_FILES_DIR = '/uploadfiles';
+const UPLOAD_FILES_DIR_PATH = path.join(process.cwd(), '/static', UPLOAD_FILES_DIR);
 function mkdir(dirPath) {
     if (fs.existsSync(dirPath)) {
         return true;
@@ -18,7 +19,7 @@ function mkdir(dirPath) {
 async function upload(ctx) {
     const req = ctx.req;
     const timeStamp = Number(new Date());
-    let uploadDirPath = path.join(UPLOAD_FILES_DIR, String(timeStamp));
+    let uploadDirPath = path.join(UPLOAD_FILES_DIR_PATH, String(timeStamp));
     if (!mkdir(uploadDirPath)) {
         return Promise.reject(false);
     }
@@ -32,7 +33,7 @@ async function upload(ctx) {
             file.on('end', function () {
                 --count;
                 if (count === 0) {
-                    return resolve(new Result(true, timeStamp));
+                    return resolve(new Result(true, `${UPLOAD_FILES_DIR}/${timeStamp}`));
                 }
             });
         });

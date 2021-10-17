@@ -32,7 +32,7 @@ async function upload(ctx) {
             file.on('end', function () {
                 --count;
                 if (count === 0) {
-                    return resolve(new Result(true, '0.0'));
+                    return resolve(new Result(true, timeStamp));
                 }
             });
         });

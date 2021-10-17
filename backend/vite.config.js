@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 import styleImport from 'vite-plugin-style-import'
 import path from 'path'
 
@@ -27,6 +28,7 @@ export default defineConfig({
     }
   },
   plugins: [
+    react(),
     styleImport({
       libs: [
         {

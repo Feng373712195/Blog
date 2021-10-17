@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { Modal,Button } from 'antd'
+import { Modal, Button, message } from 'antd';
 import { upload } from './api'
 import s from './index.module.less'
 
@@ -12,8 +12,13 @@ export default function UploadImage(props:UploadImageProps){
 
   const onUpload = async ()=>{
     const files = uploadImageInputRef.current.files
-    const res = await upload(files);
+    let res = await upload(files);
     console.log(res,'res')
+    if(res.success === true){
+      console.log(res.data)
+    }else{
+      message.error(`上传失败：${res.message}`)
+    }
   }
 
   return <Modal

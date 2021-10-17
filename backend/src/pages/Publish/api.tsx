@@ -1,11 +1,6 @@
-import request from '@/utils/request';
 
+import request, { Respone } from '@/utils/request';
 
-export function upload(files){
-  const data = new FormData()
-  files.map((file,index)=>data.append(`file${index}`,file))
-  return request.put('/upload',data)
-}
 
 export function  createArticle(params) {
   return request.post('/article')
@@ -17,23 +12,4 @@ export function  updateArticle(params) {
 
 export function  deleteArticle(params) {
   return request.put('/article')
-}
-
-interface ArticleLiteItem {
-  author: string
-  clicks: number
-  content: string
-  createtime: string
-  lables: any[]
-  lasttime: number
-  title: string
-}
-
-export function fetchArticles(page = 1,size = 10) {
-  return request.get<{
-    code:number,
-    data:{ articles:ArticleLiteItem[] }
-  }>('/articles',{
-    params:{ page,size }
-  })
 }

@@ -145,7 +145,7 @@ function EditorTools(props:{
 
   const onUploadImage = (path:string,files:FileList)=>{
     const el = props.el
-    const text = [...files].map((file)=>`\n![](${config.baseApi}${path}${file.name})`)
+    const text = [...files].map((file)=>`\n![](${path}/${file.name})`)
     el.value += text.join('')
     props.onUpdate(el.value)
   }

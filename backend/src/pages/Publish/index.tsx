@@ -2,6 +2,7 @@ import React,{ useState, useContext , useEffect , useRef , useCallback } from 'r
 import { InboxOutlined,PlusOutlined } from '@ant-design/icons'
 import { Select,Empty,Button,Input,Tag,Spin,message } from 'antd'
 import { LayoutContext } from '@/components/Layout'
+import { createArticle,updateArticle } from './api'
 
 // import SimpleMDE from "react-simplemde-editor";
 // import "easymde/dist/easymde.min.css";
@@ -77,7 +78,7 @@ function ChooseLabel(props:{
 }
 
 export default function Publish() {
-
+  const [loading,setLoading] = useState(false)
   const [preview,showPreview] = useState(false)
   const uploadFileInputRef = useRef<HTMLInputElement>()
   const [article,setArticle] = useState<Article>(getDefaultArticle())
@@ -87,13 +88,26 @@ export default function Publish() {
     setArticle(Object.assign({ ...article },{ [key]:value }))
   }
 
+  // 发布文章
+  const onPublush = async ()=>{
+    setLoading(true)
+    const res = await createArticle(article)
+    console.log(res)
+    setLoading(false)
+  }
+
+  // 保存草稿
+  const onSave = () => {
+
+  }
+
   useEffect(()=>{
     setHeaderExtend({
       render:()=><div className={s.ctr} >
         <ChooseLabel labels={article.labels} onChange={labels=>onUpdateArticle('labels',[...labels])} />
         <Button type="primary" ghost >保存草稿</Button>
-        <Button type="primary" >发布</Button>
-        <Button type="text" style={{ marginLeft:'12px' }} >返回</Button>
+        <Button type="primary" onClick={onPublush} >发布</Button>
+        <Button type="text" href="/articles" style={{ marginLeft:'12px' }} >返回</Button>
       </div>
     })
   },[article.labels])
@@ -130,21 +144,21 @@ export default function Publish() {
   }
 
   return <div className={s.form} >
-
-    <div className={s['form-item']} >
-      <h3>文章标题</h3>
-      <Input placeholder="文章标题..." value={article.title} onInput={onChangeTitle}  />
-    </div>
-    <div className={s['form-item']} >
-      <h3>文章标题</h3>
-      <Editor onChange={()=>{}} />
-    </div>
-    <div className={s['form-item']}>
-      <h3>上传附件</h3>
-      <Files />
-      <Button type="primary" onClick={chooseFiles} >请选择要上传附件</Button>
-			<input ref={uploadFileInputRef} className={s["uplpad-file"]} type='file' onChange={choosedFiles} multiple />
-    </div>
-
+    <Spin spinning={loading} >
+      <div className={s['form-item']} >
+        <h3>文章标题</h3>
+        <Input placeholder="文章标题..." value={article.title} onInput={onChangeTitle}  />
+      </div>
+      <div className={s['form-item']} >
+        <h3>文章标题</h3>
+        <Editor onChange={()=>{}} />
+      </div>
+      <div className={s['form-item']}>
+        <h3>上传附件</h3>
+        <Files />
+        <Button type="primary" onClick={chooseFiles} >请选择要上传附件</Button>
+        <input ref={uploadFileInputRef} className={s["uplpad-file"]} type='file' onChange={choosedFiles} multiple />
+      </div>
+    </Spin>
   </div>
 }

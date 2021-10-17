@@ -72,12 +72,17 @@ export default function Articles() {
     return ()=> layoutContext.setHeaderExtend(null)
   },[])
 
-  useEffect(()=>{
+  const getArticles = async () => {
     setLoading(true)
-    fetchArticles().then(res=>{
-      setData(res.data.data.articles)
-      setLoading(false)
-    })
+    const res = await fetchArticles()
+    if(res.success){
+      setData(res.data.articles)
+    }
+    setLoading(false)
+  }
+
+  useEffect(()=>{
+    getArticles()
   },[])
 
   return <Table loading={loading} rowKey={row=>row._id} bordered dataSource={data} columns={columns} >
